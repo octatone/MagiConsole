@@ -30,9 +30,13 @@ var MagiConsolePrototype = {
     namespaceMap = null;
   },
 
-  'shouldRun': function () {
+  'shouldRun': function (method) {
 
-    var shouldRun = MagiConsole.pattern && MagiConsole.pattern.test(this.namespace);
+    var pattern = MagiConsole.pattern;
+    var level = MagiConsole.level;
+
+    var shouldRun = pattern && pattern.test(this.namespace);
+    shouldRun = shouldRun && (level ? method === level : true);
     return !!(shouldRun && Console);
   }
 };
@@ -41,13 +45,15 @@ functions(Console).forEach(function (method) {
 
   MagiConsolePrototype[method] = function () {
 
-    this.shouldRun() && Console[method].apply(Console, arguments);
+    this.shouldRun(method) && Console[method].apply(Console, arguments);
   };
 });
 
 var MagiConsole = WBClass.extend(MagiConsolePrototype);
 
 MagiConsole.namespaces = {};
+MagiConsole.pattern = undefined;
+MagiConsole.level = undefined;
 
 MagiConsole.release = function () {
 
@@ -61,9 +67,18 @@ MagiConsole.log = function (regexPatternString) {
   MagiConsole.pattern = new RegExp(regexPatternString);
 };
 
+MagiConsole.setLevel = function (logLevel) {
+
+  assert.string(logLevel, 'logLevel must be a string');
+  logLevel = logLevel === '*' ? undefined : logLevel;
+  MagiConsole.level = logLevel;
+};
+
 if (!process.browser) {
   var envPattern = process.env.MLOG;
+  var envLevel = process.env.MLEVEL;
   envPattern && MagiConsole.log(envPattern);
+  envLevel && MagiConsole.setLevel(envLevel);
 }
 
 module.exports = global.MagiConsole = MagiConsole;

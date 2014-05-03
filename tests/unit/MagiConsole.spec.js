@@ -10,6 +10,7 @@ describe('MagiConsole', function () {
 
     MagiConsole.release();
     MagiConsole.pattern = undefined;
+    MagiConsole.level = undefined;
   });
 
   describe('constructor', function () {
@@ -78,56 +79,146 @@ describe('MagiConsole', function () {
     });
   });
 
-  describe('#shouldRun', function () {
+  describe('.setLevel', function () {
 
-    it ('should return false if MagiConsole.pattern is undefined', function () {
+    it ('should throw if logLevel is not a string', function () {
 
-      var logger = new MagiConsole('test');
-      MagiConsole.pattern = undefined;
-      expect(logger.shouldRun()).to.be.false;
+      notStrings.forEach(function (notAString) {
+
+        expect(function () {
+
+          MagiConsole.setLevel(notAString);
+        }).to.throw('logLevel must be a string');
+      });
     });
 
-    it ('should return true if MagiConsole.pattern matches instance namespace', function () {
+    it ('should set MagiConsole.level to a string', function () {
 
-      var logger = new MagiConsole('test');
-      MagiConsole.log('test');
-      expect(logger.shouldRun()).to.be.true;
+      var level = 'info';
+
+      MagiConsole.setLevel(level);
+      expect(MagiConsole.level).to.be.a.string;
+      expect(MagiConsole.level).to.equal(level);
     });
 
-    it ('should return false if MagiConsole.pattern does not match instance namespace', function () {
+    it ('\'*\' should set MagiConsole.level to undefined', function () {
 
-      var logger = new MagiConsole('test');
-      MagiConsole.log('foo');
-      expect(logger.shouldRun()).to.be.false;
+      var levelString = '*';
+
+      MagiConsole.setLevel(levelString);
+      expect(MagiConsole.level).to.be.undefined;
     });
   });
 
-  describe('Instance Integration Tests', function () {
+  describe('Instance Tests', function () {
+
+    describe('#shouldRun', function () {
+
+      describe ('given MagiConsole.level is not set', function () {
+
+        it ('should return false if MagiConsole.pattern is undefined', function () {
+
+          var logger = new MagiConsole('test');
+          MagiConsole.pattern = undefined;
+          expect(logger.shouldRun()).to.be.false;
+        });
+
+        it ('should return true if MagiConsole.pattern matches instance namespace', function () {
+
+          var logger = new MagiConsole('test');
+          MagiConsole.log('test');
+          expect(logger.shouldRun()).to.be.true;
+        });
+
+        it ('should return false if MagiConsole.pattern does not match instance namespace', function () {
+
+          var logger = new MagiConsole('test');
+          MagiConsole.log('foo');
+          expect(logger.shouldRun()).to.be.false;
+        });
+      });
+
+      describe ('given MagiConsole.level is set', function () {
+
+        beforeEach(function () {
+
+          MagiConsole.log('test');
+          MagiConsole.setLevel('warn');
+        });
+
+        it ('should return false if method does not match MagiConsole.level', function () {
+
+          var logger = new MagiConsole('test');
+          expect(logger.shouldRun('debug')).to.be.false;
+        });
+
+        it ('should return true if method matches MagiConsole.level', function () {
+
+          var logger = new MagiConsole('test');
+          expect(logger.shouldRun('warn')).to.be.true;
+        });
+
+      });
+    });
 
     describe('#log', function () {
 
-      it ('should run if MagiConsole is setup for the instance namespace', function () {
+      describe ('given MagiConsole.level is not set', function () {
 
-        var logSpy = sinon.spy(console, 'log');
-        var logger = new MagiConsole('test');
-        MagiConsole.log('test');
+        it ('should run if MagiConsole is setup for the instance namespace', function () {
 
-        logger.log('foobar');
+          var logSpy = sinon.spy(console, 'log');
+          var logger = new MagiConsole('test');
+          MagiConsole.log('test');
 
-        expect(logSpy).to.have.been.calledOnce;
-        logSpy.restore();
+          logger.log('foobar');
+
+          expect(logSpy).to.have.been.calledOnce;
+          logSpy.restore();
+        });
+
+        it ('should not run if MagiConsole is not setup for the instance namespace', function () {
+
+          var logSpy = sinon.spy(console, 'log');
+          var logger = new MagiConsole('test');
+          MagiConsole.log('foo');
+
+          logger.log('foobar');
+
+          expect(logSpy).to.not.have.been.called;
+          logSpy.restore();
+        });
       });
 
-      it ('should not run if MagiConsole is not setup for the instance namespace', function () {
+      describe ('given MagiConsole.level is set', function () {
 
-        var logSpy = sinon.spy(console, 'log');
-        var logger = new MagiConsole('test');
-        MagiConsole.log('foo');
+        beforeEach(function () {
 
-        logger.log('foobar');
+          MagiConsole.log('test');
+          MagiConsole.setLevel('warn');
+        });
 
-        expect(logSpy).to.not.have.been.calledOnce;
-        logSpy.restore();
+        it ('should run if method matches current level', function () {
+
+          var warnSpy = sinon.spy(console, 'warn');
+          var logger = new MagiConsole('test');
+
+          logger.warn('foobar');
+
+          expect(warnSpy).to.have.been.calledOnce;
+          warnSpy.restore();
+        });
+
+        it ('should not run if method does not match current level', function () {
+
+          var logSpy = sinon.spy(console, 'log');
+          var logger = new MagiConsole('test');
+
+          logger.log('foobar');
+
+          expect(logSpy).to.not.have.been.called;
+          logSpy.restore();
+        });
       });
     });
   });
