@@ -1,6 +1,47 @@
 # MagiConsole
 
-Magical.
+A magical namespaced `console` wrapper.
+
+## Usage
+
+Require the magiconsole constructor module and create some namespaced magiconsole objects:
+```javascript
+var Console = require('magiconsole');
+
+var fooConsole = new Console('foo');
+var barConsole = new Console('bar');
+```
+
+By default nothing is output from magiconsole:
+```javascript
+fooConsole.log('bar');
+barConsole.log('foo');
+```
+(nothing is output to the console)
+
+You can enable magiconsole namespaces with regex patterns:
+```javascript
+Console.log('bar');
+barConsole.log('foo');
+fooConsole.log('bar');
+```
+```text
+> foo
+```
+
+You can enable all namespaces with a special wildcard string:
+```javascript
+Console.log('*');
+barConsole.log('foo');
+fooConsole.log('bar');
+```
+```text
+> foo
+> bar
+```
+
+magiconsole wraps *all* methods normally available via `console` including `log`, `dir`, `warn`, and `info`.
+
 
 ## Develop and contribute
 
