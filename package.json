@@ -1,7 +1,16 @@
 {
-  "author": "Raymond May, Jr.",
+  "author": "Raymond May, Jr. <raymondmay@gmail.com> (http://raymondmayjr.com)",
   "name": "magiconsole",
-  "version": "0.0.3",
+  "description": "Lightweight namespaced console constructor for easy enabling and disabling of console messages in your project.",
+  "keywords": [
+    "console",
+    "debug",
+    "namespace",
+    "loglevel",
+    "utility"
+  ],
+  "license": "MIT",
+  "version": "0.0.4",
   "main": "public/MagiConsole.js",
   "homepage": "",
   "repository": {
