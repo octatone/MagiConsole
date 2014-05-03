@@ -1,0 +1,13 @@
+{
+  "options": {
+    "cyclomatic": 6,
+    "halstead": 20,
+    "maintainability": 100,
+    "errorsOnly": true
+  },
+  "public": {
+    "src": [
+      "public/**/*.js"
+    ]
+  }
+}

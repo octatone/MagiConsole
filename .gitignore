@@ -1,0 +1,13 @@
+# System generated files
+node_modules
+npm-debug.log
+.DS_Store
+*.sublime-project
+/coverage
+
+# Files from build tools
+build
+*.gz
+
+# dist min
+/dist/wunderlist.sync.min.js

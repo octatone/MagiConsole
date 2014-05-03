@@ -1,0 +1,22 @@
+{
+  "public": {
+    "files": {
+      "src": [
+        "public/**/*.js"
+      ]
+    },
+    "options": {
+      "jshintrc": ".jshintrc"
+    }
+  },
+  "tests": {
+    "files": {
+      "src": [
+        "tests/**/*.js"
+      ]
+    },
+    "options": {
+      "jshintrc": "tests/.jshintrc"
+    }
+  }
+}
