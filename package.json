@@ -6,7 +6,7 @@
   "homepage": "",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:octatone/MagiConsole.git"
   },
   "engines": {
     "node": "~0.10.15",
