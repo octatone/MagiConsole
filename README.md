@@ -40,6 +40,11 @@ fooConsole.log('bar');
 > bar
 ```
 
+You can enable namespaces via environment variables:
+```text
+> MLOG=foo node fooAndBarLogs.js
+```
+
 magiconsole wraps *all* methods normally available via `console` including `log`, `dir`, `warn`, and `info`.
 
 
