@@ -6,11 +6,14 @@ A magical namespaced `console` wrapper.
 
 Require the magiconsole constructor module and create some namespaced magiconsole objects:
 ```javascript
-var Console = require('magiconsole');
+var MagiConsole = require('magiconsole');
 
 var fooConsole = new Console('foo');
 var barConsole = new Console('bar');
 ```
+
+The MagiConsole constructor caches namespaced instances so you can require and create
+namespaced consoles throughout your project without actually creating new objects.
 
 By default nothing is output from magiconsole:
 ```javascript
@@ -19,9 +22,9 @@ barConsole.log('foo');
 ```
 (nothing is output to the console)
 
-You can enable magiconsole namespaces with regex patterns:
+Enable magiconsole namespaces with regex patterns:
 ```javascript
-Console.log('bar');
+MagiConsole.log('bar');
 barConsole.log('foo');
 fooConsole.log('bar');
 ```
@@ -29,9 +32,9 @@ fooConsole.log('bar');
 > foo
 ```
 
-You can enable all namespaces with a special wildcard string:
+Enable all namespaces with a special wildcard string:
 ```javascript
-Console.log('*');
+MagiConsole.log('*');
 barConsole.log('foo');
 fooConsole.log('bar');
 ```
@@ -40,7 +43,7 @@ fooConsole.log('bar');
 > bar
 ```
 
-You can enable namespaces via environment variables:
+Enable namespaces via environment variables:
 ```text
 > MLOG=foo node fooAndBarLogs.js
 ```
