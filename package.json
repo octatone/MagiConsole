@@ -1,6 +1,6 @@
 {
   "author": "Raymond May, Jr.",
-  "name": "MagiConsole",
+  "name": "magiconsole",
   "version": "0.0.1",
   "main": "public/MagiConsole.js",
   "homepage": "",
