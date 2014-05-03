@@ -61,4 +61,9 @@ MagiConsole.log = function (regexPatternString) {
   MagiConsole.pattern = new RegExp(regexPatternString);
 };
 
+if (!process.browser) {
+  var envPattern = process.env.MLOG;
+  envPattern && MagiConsole.log(envPattern);
+}
+
 module.exports = global.MagiConsole = MagiConsole;
