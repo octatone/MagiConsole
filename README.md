@@ -48,7 +48,7 @@ barConsole.log('foo');
 fooConsole.log('bar');
 ```
 ```text
-> foo
+> [BAR] foo
 ```
 
 Enable all namespaces with a special wildcard string:
@@ -59,8 +59,8 @@ barConsole.log('foo');
 fooConsole.log('bar');
 ```
 ```text
-> foo
-> bar
+> [BAR] foo
+> [FOO] bar
 ```
 
 Enable namespaces via environment variables:
@@ -93,7 +93,7 @@ barConsole.log('foo');
 fooConsole.warn('bar');
 ```
 ```text
-> bar
+> [FOO] bar
 ```
 
 Reenable all console methods:
@@ -105,8 +105,8 @@ barConsole.log('foo');
 fooConsole.warn('bar');
 ```
 ```text
-> foo
-> bar
+> [BAR] foo
+> [FOO] bar
 ```
 
 Set log level via environment variable:
