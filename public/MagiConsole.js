@@ -1,11 +1,10 @@
 'use strict';
 
 var Console = global.console;
-var core = require('wunderbits.core');
 
-var WBClass = core.WBClass;
-var assert = core.lib.assert;
-var functions = core.lib.functions;
+var WBClass = require('../node_modules/wunderbits.core/public/WBClass');
+var assert =  require('../node_modules/wunderbits.core/public/lib/assert');
+var functions =  require('../node_modules/wunderbits.core/public/lib/functions');
 
 var MagiConsolePrototype = {
 
