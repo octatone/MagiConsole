@@ -16,6 +16,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-complexity');
+  grunt.loadNpmTasks('grunt-plato');
 
   function config (name) {
     return grunt.file.readJSON('./grunt/configs/' + name + '.json');
