@@ -472,6 +472,9 @@ var Console = global.console;
 var WBClass = _dereq_('../node_modules/wunderbits.core/public/WBClass');
 var assert =  _dereq_('../node_modules/wunderbits.core/public/lib/assert');
 var functions =  _dereq_('../node_modules/wunderbits.core/public/lib/functions');
+var toArray = _dereq_('../node_modules/wunderbits.core/public/lib/toArray');
+
+var _normalLoggers = ['debug', 'error', 'info', 'log', 'warn'];
 
 var MagiConsolePrototype = {
 
@@ -504,14 +507,35 @@ var MagiConsolePrototype = {
     var shouldRun = pattern && pattern.test(this.namespace);
     shouldRun = shouldRun && (level ? method === level : true);
     return !!(shouldRun && Console);
+  },
+
+  'injectNamespace': function (method, args) {
+
+    if (_normalLoggers.indexOf(method) >= 0) {
+      args = toArray(args);
+      var namespaceString = '[' + this.namespace.toUpperCase() + ']';
+      if (typeof args[0] === 'string') {
+        args[0] = namespaceString + ' ' + args[0];
+      }
+      else {
+        args.unshift(namespaceString);
+      }
+    }
+
+    return args;
   }
 };
 
 functions(Console).forEach(function (method) {
 
-  MagiConsolePrototype[method] = function () {
+  MagiConsolePrototype[method] = function methodWrapper () {
 
-    this.shouldRun(method) && Console[method].apply(Console, arguments);
+    var self = this;
+    var args = arguments;
+    if (self.shouldRun(method)) {
+      args = self.injectNamespace(method, args);
+      Console[method].apply(Console, args);
+    }
   };
 });
 
@@ -549,7 +573,7 @@ if (!process.browser) {
 
 module.exports = global.MagiConsole = MagiConsole;
 }).call(this,_dereq_("/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../node_modules/wunderbits.core/public/WBClass":2,"../node_modules/wunderbits.core/public/lib/assert":3,"../node_modules/wunderbits.core/public/lib/functions":8,"/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":1}]},{},[12])
+},{"../node_modules/wunderbits.core/public/WBClass":2,"../node_modules/wunderbits.core/public/lib/assert":3,"../node_modules/wunderbits.core/public/lib/functions":8,"../node_modules/wunderbits.core/public/lib/toArray":11,"/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":1}]},{},[12])
 //@ sourceMappingURL=MagiConsole.map
 (12)
 });
