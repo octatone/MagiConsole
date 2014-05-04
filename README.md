@@ -6,14 +6,24 @@
 
 # MagiConsole
 
-A magical namespaced console wrapper.
+A magical namespaced console wrapper with loglevel support for node.js and the browser.
 
 ## Usage
 
 Require MagiConsole and create some namespaced console objects:
+
+### Node
 ```javascript
 var MagiConsole = require('magiconsole');
+```
 
+### Browser
+```html
+<script TYPE="text/javascript" src="MagiConsole.min.js"></script>
+```
+Once the script is loaded, MagiConsole is available on window.  You can also require MagiConsole.js with AMD loaders
+
+```javascript
 var fooConsole = new MagiConsole('foo');
 var barConsole = new MagiConsole('bar');
 ```
