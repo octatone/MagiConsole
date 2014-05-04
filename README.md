@@ -66,7 +66,7 @@ Sets the current regex pattern namespaces are tested against.
 
 `MagiConsole.log('^file')` will allow all namespaces starting with 'file'.
 
-`MagiConsole.log('^(?!io).+') will allow all namespaces that do not start with 'io'.
+`MagiConsole.log('^(?!io).+')` will allow all namespaces that do not start with 'io'.
 
 ### Log Levels
 
