@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+- 0.10
+
+env:
+  matrix:
+  - TRAVIS=true
+
+git:
+  depth: 1
+  submodules: false
+
+before_install:
+- npm install -g --quiet --production grunt-cli
+
+install:
+- npm install --loglevel error --development
+
+script:
+- make lint coverage
+- make test
