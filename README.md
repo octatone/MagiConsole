@@ -1,19 +1,22 @@
+[![NPM version](https://badge.fury.io/js/magiconsole.svg)](http://badge.fury.io/js/magiconsole)
+[![Code Climate](https://codeclimate.com/github/octatone/MagiConsole.png)](https://codeclimate.com/github/octatone/MagiConsole)
+
+
 # MagiConsole
 
 A magical namespaced console wrapper.
 
 ## Usage
 
-Require the magiconsole constructor module and create some namespaced magiconsole objects:
+Require MagiConsole and create some namespaced console objects:
 ```javascript
 var MagiConsole = require('magiconsole');
 
-var fooConsole = new Console('foo');
-var barConsole = new Console('bar');
+var fooConsole = new MagiConsole('foo');
+var barConsole = new MagiConsole('bar');
 ```
 
-The MagiConsole constructor caches namespaced instances so you can require and create
-namespaced consoles throughout your project without actually creating new objects.
+The MagiConsole constructor caches namespaced instances.  You can require and create namespaced consoles throughout your project, but only one object instance will be created per namespace.
 
 ### Namespaces
 
@@ -52,6 +55,16 @@ Enable namespaces via environment variables:
 ```text
 > MLOG=foo node fooAndBarLogs.js
 ```
+
+### MagiConsole.log
+
+Sets the current regex pattern namespaces are tested against.
+
+`MagiConsole.log('network|db')` will allow all namespaces containing 'network' or 'db'.
+
+`MagiConsole.log('^file')` will allow all namespaces starting with 'file'.
+
+`MagiConsole.log('^(?!io).+') will allow all namespaces that do not start with 'io'.
 
 ### Log Levels
 
