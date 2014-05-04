@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script TYPE="text/javascript" src="../../dist/MagiConsole.min.js"></script>
+    <script>
+      // the MagiConsole constructor is available on window
+      MagiConsole.log('*');
+      MagiConsole.setLevel('warn');
+
+      var fooLogger = new MagiConsole('foo');
+      var barLogger = new MagiConsole('bar');
+
+      function demo () {
+
+        ['info', 'log', 'warn'].forEach(function (method) {
+
+          fooLogger[method](method + 'level enabled for foo namespace');
+          barLogger[method](method + 'level enabled for bar namespace');
+        });
+
+      }
+
+      demo();
+      setInterval(demo, 5000);
+    </script>
+  </head>
+</html>
