@@ -161,6 +161,50 @@ describe('MagiConsole', function () {
       });
     });
 
+    describe('#injectNamespace', function () {
+
+      var normalLoggers = ['debug', 'error', 'info', 'log', 'warn'];
+
+      it ('should do nothing if not a \'normal\' logging method', function () {
+
+        var logger = new MagiConsole('test');
+        var firstArg = 'foo';
+        var args = [firstArg];
+
+        args = logger.injectNamespace('dir', args);
+        expect(args[0]).to.equal(firstArg);
+      });
+
+      it ('should inject namespace into \'normal\' logging methods', function () {
+
+        var logger = new MagiConsole('test');
+        var firstArg = 'foo';
+
+        var args;
+        normalLoggers.forEach(function (method) {
+
+          args = [firstArg];
+          args = logger.injectNamespace(method, args);
+          expect(args[0]).to.equal('[TEST] foo');
+        });
+      });
+
+      it ('should inject even if first arg is not a string', function () {
+
+        var logger = new MagiConsole('test');
+        var firstArg = {'foo': 'bar'};
+
+        var args;
+        normalLoggers.forEach(function (method) {
+
+          args = [firstArg];
+          args = logger.injectNamespace(method, args);
+          expect(args[0]).to.equal('[TEST]');
+          expect(args[1]).to.equal(firstArg);
+        });
+      });
+    });
+
     describe('#log', function () {
 
       describe ('given MagiConsole.level is not set', function () {
