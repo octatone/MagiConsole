@@ -19,3 +19,4 @@ install:
 script:
 - make lint coverage
 - make test
+- make build
