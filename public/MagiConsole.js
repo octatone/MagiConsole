@@ -121,7 +121,7 @@ if (!process.browser) {
   var envPattern = env.MLOG;
   var envLevel = env.MLEVEL;
   envPattern && MagiConsole.log(envPattern);
-  envLevel && MagiConsole.setLevel(envLevel, env.MLEVELONLY);
+  envLevel && MagiConsole.setLevel(envLevel, env.MLEVELONLY === 'true');
 }
 
 module.exports = global.MagiConsole = MagiConsole;

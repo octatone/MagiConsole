@@ -82,11 +82,27 @@ Sets the current regex pattern namespaces are tested against.
 
 MagiConsole wraps *all* methods normally available via `console` including `log`, `dir`, `warn`, and `info`.
 
-By default all methods are enabled to write to the console.
+By default no log level is set and all methods are enabled to write to the console.
 
-Whitelist a log level:
+Set a log level and allow all messages of greater severity:
 ```javascript
-MagiConsole.setLevel('warn');
+var onlyThisLevel = false;
+MagiConsole.setLevel('warn', onlyThisLevel);
+MagiConsole.log('*');
+
+barConsole.warn('a warning');
+fooConsole.error('an error');
+barConsole.debug('a boring debug message');
+```
+```text
+> [BAR] a warning
+> [FOO] an error
+```
+
+Whitelist a loglevel:
+```javascript
+var onlyThisLevel = true;
+MagiConsole.setLevel('warn', onlyThisLevel);
 MagiConsole.log('*');
 
 barConsole.log('foo');
@@ -121,6 +137,8 @@ MagiConsole can be configured via the command line using envinronment variables:
   - `MLOG` sets the namespace regex pattern
 
   - `MLEVEL` sets the loglevel
+
+  - `MLEVELONLY` set to only allow the loglevel and no other severities
 
 ## Develop and contribute
 
