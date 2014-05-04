@@ -468,13 +468,19 @@ module.exports = toArray;
 'use strict';
 
 var Console = global.console;
-
 var WBClass = _dereq_('../node_modules/wunderbits.core/public/WBClass');
 var assert =  _dereq_('../node_modules/wunderbits.core/public/lib/assert');
 var functions =  _dereq_('../node_modules/wunderbits.core/public/lib/functions');
 var toArray = _dereq_('../node_modules/wunderbits.core/public/lib/toArray');
 
-var _normalLoggers = ['debug', 'error', 'info', 'log', 'warn'];
+var _logLevels = {
+  'error': 3,
+  'warn': 4,
+  'log': 5,
+  'info': 6,
+  'debug': 7
+};
+var _normalLoggers = Object.keys(_logLevels);
 
 var MagiConsolePrototype = {
 
@@ -494,18 +500,29 @@ var MagiConsolePrototype = {
     namespaceMap[namespace] = self;
 
     WBClass.call(self);
+  },
 
-    // forces GC of potentially large object immediately
-    namespaceMap = null;
+  'shouldRunLevel': function (method) {
+
+    var currentLevel = _logLevels[MagiConsole.level];
+    var methodLevel = _logLevels[method];
+
+    if (currentLevel === undefined || methodLevel === undefined) {
+      return true;
+    }
+    else {
+      return MagiConsole.levelOnly ? methodLevel === currentLevel : methodLevel <= currentLevel;
+    }
   },
 
   'shouldRun': function (method) {
 
+    var self = this;
     var pattern = MagiConsole.pattern;
     var level = MagiConsole.level;
 
-    var shouldRun = pattern && pattern.test(this.namespace);
-    shouldRun = shouldRun && (level ? method === level : true);
+    var shouldRun = pattern && pattern.test(self.namespace);
+    shouldRun = shouldRun && (level ? self.shouldRunLevel(method) : true);
     return !!(shouldRun && Console);
   },
 
@@ -544,6 +561,7 @@ var MagiConsole = WBClass.extend(MagiConsolePrototype);
 MagiConsole.namespaces = {};
 MagiConsole.pattern = undefined;
 MagiConsole.level = undefined;
+MagiConsole.levelOnly = false;
 
 MagiConsole.release = function () {
 
@@ -557,18 +575,20 @@ MagiConsole.log = function (regexPatternString) {
   MagiConsole.pattern = new RegExp(regexPatternString);
 };
 
-MagiConsole.setLevel = function (logLevel) {
+MagiConsole.setLevel = function (logLevel, levelOnly) {
 
   assert.string(logLevel, 'logLevel must be a string');
   logLevel = logLevel === '*' ? undefined : logLevel;
   MagiConsole.level = logLevel;
+  MagiConsole.levelOnly = !!levelOnly;
 };
 
 if (!process.browser) {
-  var envPattern = process.env.MLOG;
-  var envLevel = process.env.MLEVEL;
+  var env = process.env;
+  var envPattern = env.MLOG;
+  var envLevel = env.MLEVEL;
   envPattern && MagiConsole.log(envPattern);
-  envLevel && MagiConsole.setLevel(envLevel);
+  envLevel && MagiConsole.setLevel(envLevel, env.MLEVELONLY === 'true');
 }
 
 module.exports = global.MagiConsole = MagiConsole;
