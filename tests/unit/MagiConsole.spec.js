@@ -11,6 +11,7 @@ describe('MagiConsole', function () {
     MagiConsole.release();
     MagiConsole.pattern = undefined;
     MagiConsole.level = undefined;
+    MagiConsole.levelOnly = false;
   });
 
   describe('constructor', function () {
@@ -111,6 +112,77 @@ describe('MagiConsole', function () {
   });
 
   describe('Instance Tests', function () {
+
+    describe('#shouldRunLevel', function () {
+
+      describe('given MagiConsole.levelOnly is true', function () {
+
+        beforeEach(function () {
+
+          MagiConsole.setLevel('warn', true);
+        });
+
+        it ('should return false if method level is not equal to the current level', function () {
+
+          var logger = new MagiConsole('test');
+          expect(logger.shouldRunLevel('log')).to.be.false;
+        });
+
+        it ('should return true if method level is equal to the current level', function () {
+
+          var logger = new MagiConsole('test');
+          expect(logger.shouldRunLevel('warn')).to.be.true;
+        });
+      });
+
+      describe('given MagiConsole.levelOnly is false', function () {
+
+        beforeEach(function () {
+
+          MagiConsole.setLevel('warn', false);
+        });
+
+        it ('should return false if method level is greater than the current level', function () {
+
+          var logger = new MagiConsole('test');
+          expect(logger.shouldRunLevel('log')).to.be.false;
+        });
+
+        it ('should return true if method level is equal to the current level', function () {
+
+          var logger = new MagiConsole('test');
+          expect(logger.shouldRunLevel('warn')).to.be.true;
+        });
+
+        it ('should return true if method level is less than the current level', function () {
+
+          var logger = new MagiConsole('test');
+          expect(logger.shouldRunLevel('error')).to.be.true;
+        });
+      });
+
+      describe('given MagiConsole.level is not set', function () {
+
+        it ('should return true', function () {
+
+          MagiConsole.setLevel('*');
+          var logger = new MagiConsole('test');
+
+          expect(logger.shouldRunLevel('log')).to.be.true;
+        });
+      });
+
+      describe('given method is not \'leveled\'', function () {
+
+        it ('should return true', function () {
+
+          MagiConsole.setLevel('warn', true);
+          var logger = new MagiConsole('test');
+
+          expect(logger.shouldRunLevel('dir')).to.be.true;
+        });
+      });
+    });
 
     describe('#shouldRun', function () {
 
