@@ -608,17 +608,19 @@ else {
 
   var MagiConsole = WBClass.extend(MagiConsolePrototype);
 
-  MagiConsole.namespaces = {};
-  MagiConsole.pattern = undefined;
-  MagiConsole.level = undefined;
-  MagiConsole.levelOnly = false;
-
   MagiConsole.release = function () {
 
     MagiConsole.namespaces = {};
   };
 
-  MagiConsole.log = function (regexPatternString) {
+  MagiConsole.reset = MagiConsole.off = function () {
+
+    MagiConsole.pattern = undefined;
+    MagiConsole.level = undefined;
+    MagiConsole.levelOnly = false;
+  };
+
+  MagiConsole.setPattern = function (regexPatternString) {
 
     assert.string(regexPatternString, 'regexPatternString must be a string');
     regexPatternString = regexPatternString === '*' ? '.?' : regexPatternString;
@@ -637,9 +639,12 @@ else {
     var env = process.env;
     var envPattern = env.MLOG;
     var envLevel = env.MLEVEL;
-    envPattern && MagiConsole.log(envPattern);
+    envPattern && MagiConsole.setPattern(envPattern);
     envLevel && MagiConsole.setLevel(envLevel, env.MLEVELONLY === 'true');
   }
+
+  MagiConsole.release();
+  MagiConsole.reset();
 
   module.exports = global.MagiConsole = MagiConsole;
 }
