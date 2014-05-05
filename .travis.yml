@@ -16,5 +16,4 @@ install:
 script:
 - make lint coverage
 - cat coverage/lcov.info | codeclimate
-- make test
 - make build
