@@ -14,7 +14,7 @@
   and you should see no output!
 */
 
-var Console = require('../public/MagiConsole');
+var Console = require('../../public/MagiConsole');
 
 var envLogger = new Console('envTest');
 

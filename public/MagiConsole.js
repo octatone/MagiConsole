@@ -15,6 +15,13 @@ var _logLevels = {
 };
 var _normalLoggers = Object.keys(_logLevels);
 
+// let there be debug!
+for (var logger in _normalLoggers) {
+  if (typeof Console[logger] !== 'function') {
+    Console[logger] = Console.log;
+  }
+}
+
 var MagiConsolePrototype = {
 
   'constructor': function (namespace) {

@@ -2,9 +2,13 @@ describe('MagiConsole', function () {
 
   'use strict';
 
+  var Console = global.console;
+
   var MagiConsole = require('MagiConsole');
 
   var notStrings = [0, undefined, null, /foo|bar/, function () {}, {}];
+
+  var normalLoggers = ['debug', 'error', 'info', 'log', 'warn'];
 
   afterEach(function () {
 
@@ -12,6 +16,17 @@ describe('MagiConsole', function () {
     MagiConsole.pattern = undefined;
     MagiConsole.level = undefined;
     MagiConsole.levelOnly = false;
+  });
+
+  describe('shimmy shim shim', function () {
+
+    normalLoggers.forEach(function (logger) {
+
+      it ('should ensure console.' + logger + ' is a function', function () {
+
+        expect(Console[logger]).to.be.a.function;
+      });
+    });
   });
 
   describe('constructor', function () {
@@ -234,8 +249,6 @@ describe('MagiConsole', function () {
     });
 
     describe('#injectNamespace', function () {
-
-      var normalLoggers = ['debug', 'error', 'info', 'log', 'warn'];
 
       it ('should do nothing if not a \'normal\' logging method', function () {
 
