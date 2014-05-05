@@ -1,5 +1,10 @@
 'use strict';
 
+if (global.MagiConsole) {
+  module.exports = global.MagiConsole;
+  return;
+}
+
 var Console = global.console;
 var WBClass = require('wunderbits.core/public/WBClass');
 var assert =  require('wunderbits.core/public/lib/assert');
