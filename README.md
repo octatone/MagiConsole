@@ -1,7 +1,7 @@
-[![NPM version](https://badge.fury.io/js/magiconsole.svg)](http://badge.fury.io/js/magiconsole)
-[![Code Climate](https://codeclimate.com/github/octatone/MagiConsole.png)](https://codeclimate.com/github/octatone/MagiConsole)
-[![Build Status](https://travis-ci.org/octatone/MagiConsole.svg?branch=master)](https://travis-ci.org/octatone/MagiConsole)
+[![NPM version](https://badge.fury.io/js/magiconsole.png)](http://badge.fury.io/js/magiconsole)
 [![Dependency Status](https://david-dm.org/octatone/MagiConsole.png?theme=shields.io)](https://david-dm.org/octatone/MagiConsole)
+[![Build Status](https://travis-ci.org/octatone/MagiConsole.png?branch=master)](https://travis-ci.org/octatone/MagiConsole)
+<!-- [![Code Climate](https://codeclimate.com/github/octatone/MagiConsole.png)](https://codeclimate.com/github/octatone/MagiConsole) -->
 
 
 # MagiConsole
