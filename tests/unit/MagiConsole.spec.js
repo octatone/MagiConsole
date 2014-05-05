@@ -20,11 +20,18 @@ describe('MagiConsole', function () {
 
   describe('shimmy shim shim', function () {
 
+    var localConsole = new MagiConsole('test');
+
     normalLoggers.forEach(function (logger) {
 
       it ('should ensure console.' + logger + ' is a function', function () {
 
         expect(Console[logger]).to.be.a.function;
+        expect(localConsole[logger]).to.be.a.function;
+        expect(function () {
+
+          localConsole[logger]('foobar');
+        }).to.not.throw();
       });
     });
   });
