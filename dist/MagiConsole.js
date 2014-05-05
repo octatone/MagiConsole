@@ -467,6 +467,12 @@ module.exports = toArray;
 (function (process,global){
 'use strict';
 
+var isBrowser = process.browser;
+if (isBrowser && global.MagiConsole) {
+  module.exports = global.MagiConsole;
+  return;
+}
+
 var Console = global.console;
 var WBClass = _dereq_('wunderbits.core/public/WBClass');
 var assert =  _dereq_('wunderbits.core/public/lib/assert');
@@ -590,7 +596,7 @@ MagiConsole.setLevel = function (logLevel, levelOnly) {
   MagiConsole.levelOnly = !!levelOnly;
 };
 
-if (!process.browser) {
+if (!isBrowser) {
   var env = process.env;
   var envPattern = env.MLOG;
   var envLevel = env.MLEVEL;

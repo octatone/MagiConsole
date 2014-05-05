@@ -1,6 +1,7 @@
 'use strict';
 
-if (global.MagiConsole) {
+var isBrowser = process.browser;
+if (isBrowser && global.MagiConsole) {
   module.exports = global.MagiConsole;
   return;
 }
@@ -128,7 +129,7 @@ MagiConsole.setLevel = function (logLevel, levelOnly) {
   MagiConsole.levelOnly = !!levelOnly;
 };
 
-if (!process.browser) {
+if (!isBrowser) {
   var env = process.env;
   var envPattern = env.MLOG;
   var envLevel = env.MLEVEL;
