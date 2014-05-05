@@ -2,6 +2,7 @@
 [![Dependency Status](https://david-dm.org/octatone/MagiConsole.png?theme=shields.io)](https://david-dm.org/octatone/MagiConsole)
 [![Build Status](https://travis-ci.org/octatone/MagiConsole.png?branch=master)](https://travis-ci.org/octatone/MagiConsole)
 [![Code Climate](https://codeclimate.com/github/octatone/MagiConsole.png)](https://codeclimate.com/github/octatone/MagiConsole)
+[![Code Climate Coverage](https://codeclimate.com/github/octatone/MagiConsole/coverage.png)](https://codeclimate.com/github/octatone/MagiConsole)
 
 
 # MagiConsole
