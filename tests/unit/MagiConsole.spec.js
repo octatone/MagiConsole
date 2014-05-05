@@ -68,7 +68,7 @@ describe('MagiConsole', function () {
     });
   });
 
-  describe('.log', function () {
+  describe('.setPattern', function () {
 
     it ('should throw if regexPatternString is not a string', function () {
 
@@ -76,7 +76,7 @@ describe('MagiConsole', function () {
 
         expect(function () {
 
-          MagiConsole.log(notAString);
+          MagiConsole.setPattern(notAString);
         }).to.throw('regexPatternString must be a string');
       });
     });
@@ -86,7 +86,7 @@ describe('MagiConsole', function () {
       var patternString = 'foo|bar';
       var expectedToString = '/foo|bar/';
 
-      MagiConsole.log(patternString);
+      MagiConsole.setPattern(patternString);
       expect(MagiConsole.pattern).to.be.instanceOf(RegExp);
       expect(MagiConsole.pattern.toString()).to.equal(expectedToString);
     });
@@ -96,7 +96,7 @@ describe('MagiConsole', function () {
       var patternString = '*';
       var expectedToString = '/.?/';
 
-      MagiConsole.log(patternString);
+      MagiConsole.setPattern(patternString);
       expect(MagiConsole.pattern).to.be.instanceOf(RegExp);
       expect(MagiConsole.pattern.toString()).to.equal(expectedToString);
     });
@@ -220,14 +220,14 @@ describe('MagiConsole', function () {
         it ('should return true if MagiConsole.pattern matches instance namespace', function () {
 
           var logger = new MagiConsole('test');
-          MagiConsole.log('test');
+          MagiConsole.setPattern('test');
           expect(logger.shouldRun()).to.be.true;
         });
 
         it ('should return false if MagiConsole.pattern does not match instance namespace', function () {
 
           var logger = new MagiConsole('test');
-          MagiConsole.log('foo');
+          MagiConsole.setPattern('foo');
           expect(logger.shouldRun()).to.be.false;
         });
       });
@@ -236,7 +236,7 @@ describe('MagiConsole', function () {
 
         beforeEach(function () {
 
-          MagiConsole.log('test');
+          MagiConsole.setPattern('test');
           MagiConsole.setLevel('warn');
         });
 
@@ -316,7 +316,7 @@ describe('MagiConsole', function () {
 
           var logSpy = sinon.spy(console, 'log');
           var logger = new MagiConsole('test');
-          MagiConsole.log('test');
+          MagiConsole.setPattern('test');
 
           logger.log('foobar');
 
@@ -328,7 +328,7 @@ describe('MagiConsole', function () {
 
           var logSpy = sinon.spy(console, 'log');
           var logger = new MagiConsole('test');
-          MagiConsole.log('foo');
+          MagiConsole.setPattern('foo');
 
           logger.log('foobar');
 
@@ -341,7 +341,7 @@ describe('MagiConsole', function () {
 
         beforeEach(function () {
 
-          MagiConsole.log('test');
+          MagiConsole.setPattern('test');
           MagiConsole.setLevel('warn');
         });
 

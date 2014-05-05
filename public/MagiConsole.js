@@ -151,7 +151,7 @@ else {
     MagiConsole.namespaces = {};
   };
 
-  MagiConsole.log = function (regexPatternString) {
+  MagiConsole.setPattern = function (regexPatternString) {
 
     assert.string(regexPatternString, 'regexPatternString must be a string');
     regexPatternString = regexPatternString === '*' ? '.?' : regexPatternString;
@@ -170,7 +170,7 @@ else {
     var env = process.env;
     var envPattern = env.MLOG;
     var envLevel = env.MLEVEL;
-    envPattern && MagiConsole.log(envPattern);
+    envPattern && MagiConsole.setPattern(envPattern);
     envLevel && MagiConsole.setLevel(envLevel, env.MLEVELONLY === 'true');
   }
 

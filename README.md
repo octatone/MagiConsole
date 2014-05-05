@@ -43,7 +43,7 @@ barConsole.log('foo');
 Enable magiconsole namespaces with regex patterns:
 ```javascript
 // setup namespace regex pattern:
-MagiConsole.log('bar');
+MagiConsole.setPattern('bar');
 
 barConsole.log('foo');
 fooConsole.log('bar');
@@ -54,7 +54,7 @@ fooConsole.log('bar');
 
 Enable all namespaces with a special wildcard string:
 ```javascript
-MagiConsole.log('*');
+MagiConsole.setPattern('*');
 
 barConsole.log('foo');
 fooConsole.log('bar');
@@ -69,15 +69,15 @@ Enable namespaces via environment variables:
 > MLOG=foo node fooAndBarLogs.js
 ```
 
-### MagiConsole.log
+### MagiConsole.setPattern
 
 Sets the current regex pattern namespaces are tested against.
 
-`MagiConsole.log('network|db')` will allow all namespaces containing 'network' or 'db'.
+`MagiConsole.setPattern('network|db')` will allow all namespaces containing 'network' or 'db'.
 
-`MagiConsole.log('^file')` will allow all namespaces starting with 'file'.
+`MagiConsole.setPattern('^file')` will allow all namespaces starting with 'file'.
 
-`MagiConsole.log('^(?!io).+')` will allow all namespaces that do not start with 'io'.
+`MagiConsole.setPattern('^(?!io).+')` will allow all namespaces that do not start with 'io'.
 
 ### Log Levels
 
@@ -89,7 +89,7 @@ Set a log level and allow all messages of greater severity:
 ```javascript
 var onlyThisLevel = false;
 MagiConsole.setLevel('warn', onlyThisLevel);
-MagiConsole.log('*');
+MagiConsole.setPattern('*');
 
 barConsole.warn('a warning');
 fooConsole.error('an error');
@@ -104,7 +104,7 @@ Whitelist a loglevel:
 ```javascript
 var onlyThisLevel = true;
 MagiConsole.setLevel('warn', onlyThisLevel);
-MagiConsole.log('*');
+MagiConsole.setPattern('*');
 
 barConsole.log('foo');
 fooConsole.warn('bar');
@@ -116,7 +116,7 @@ fooConsole.warn('bar');
 Reenable all console methods:
 ```javascript
 MagiConsole.setLevel('*');
-MagiConsole.log('*');
+MagiConsole.setPattern('*');
 
 barConsole.log('foo');
 fooConsole.warn('bar');
