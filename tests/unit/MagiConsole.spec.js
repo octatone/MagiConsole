@@ -13,9 +13,7 @@ describe('MagiConsole', function () {
   afterEach(function () {
 
     MagiConsole.release();
-    MagiConsole.pattern = undefined;
-    MagiConsole.level = undefined;
-    MagiConsole.levelOnly = false;
+    MagiConsole.reset();
   });
 
   describe('shimmy shim shim', function () {
@@ -130,6 +128,21 @@ describe('MagiConsole', function () {
 
       MagiConsole.setLevel(levelString);
       expect(MagiConsole.level).to.be.undefined;
+    });
+  });
+
+  describe('.reset', function () {
+
+    it ('should reset pattern and level settings', function () {
+
+      MagiConsole.setPattern('test');
+      MagiConsole.setLevel('warn', true);
+      MagiConsole.reset();
+
+      expect(MagiConsole.pattern).to.be.undefined;
+      expect(MagiConsole.level).to.be.undefined;
+      expect(MagiConsole.levelOnly).to.be.false;
+      expect(MagiConsole.off).to.equal(MagiConsole.reset);
     });
   });
 

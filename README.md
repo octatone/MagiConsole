@@ -131,6 +131,13 @@ Set log level via environment variable:
 > MLEVEL=info node allSortsOfMagiConsoleMethods.js
 ```
 
+### Reset
+
+Reset MagiConsole to the default state of not logging anything:
+```javascript
+MagiConsole.reset();
+```
+
 ## Environment Variables
 
 MagiConsole can be configured via the command line using envinronment variables:
