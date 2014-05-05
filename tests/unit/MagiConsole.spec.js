@@ -257,9 +257,22 @@ describe('MagiConsole', function () {
 
     describe('#injectNamespace', function () {
 
+      var logger;
+      var normalLoggers = ['debug', 'error', 'info', 'log', 'warn'];
+      var OverClass = MagiConsole.extend({
+        'colorizeNamespace': function (string) {
+
+          return string;
+        }
+      });
+
+      beforeEach(function () {
+
+        logger = new OverClass('test');
+      });
+
       it ('should do nothing if not a \'normal\' logging method', function () {
 
-        var logger = new MagiConsole('test');
         var firstArg = 'foo';
         var args = [firstArg];
 
@@ -269,7 +282,6 @@ describe('MagiConsole', function () {
 
       it ('should inject namespace into \'normal\' logging methods', function () {
 
-        var logger = new MagiConsole('test');
         var firstArg = 'foo';
 
         var args;
@@ -283,7 +295,6 @@ describe('MagiConsole', function () {
 
       it ('should inject even if first arg is not a string', function () {
 
-        var logger = new MagiConsole('test');
         var firstArg = {'foo': 'bar'};
 
         var args;
