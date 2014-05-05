@@ -1,22 +1,20 @@
 language: node_js
 node_js:
-- 0.10
-
+- 0.1
 env:
   matrix:
   - TRAVIS=true
-
+  global:
+    secure: CtckLC7AGSRgrJH2XxEi9aQDKoamUUAyTQRCITVnEHDoXIriQZ1BASjvgyDRA0XrlWS0Yr+qBX5aSc2XFAghSAErs9mvLoCZ3ox4/oM8rUc7ab5PAcvvp8vE5+AKaE0L89DXm4WnyToWrq/pXgRs/UMjaA1ncd1KdcZxgDxPc3g=
 git:
   depth: 1
   submodules: false
-
 before_install:
-- npm install -g --quiet --production grunt-cli
-
+- npm install -g --quiet --production grunt-cli codeclimate-test-reporter
 install:
 - npm install --loglevel error --development
-
 script:
 - make lint coverage
+- cat coverage/lcov.info | codeclimate
 - make test
 - make build
