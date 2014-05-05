@@ -10,7 +10,7 @@
     "utility"
   ],
   "license": "MIT",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "main": "public/MagiConsole.js",
   "homepage": "",
   "repository": {
