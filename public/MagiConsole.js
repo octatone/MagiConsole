@@ -24,14 +24,19 @@ else {
     'blue': '\x1B[34m',
     'cyan': '\x1B[36m',
     'green': '\x1B[32m',
+    'grey': '\x1B[90m',
     'magenta': '\x1B[35m',
     'red': '\x1B[31m',
+    'white': '\x1B[37m',
     'yellow': '\x1B[33m'
   };
   var _colorTerminator = '\x1B[39m';
 
   var _colorMap = {
+    'debug': 'cyan',
     'error': 'red',
+    'info': 'grey',
+    'log': 'white',
     'warn': 'yellow'
   };
 
@@ -108,7 +113,7 @@ else {
       if (_normalLoggers.indexOf(method) >= 0) {
         args = toArray(args);
         var namespaceString = '[' + self.namespace.toUpperCase() + ']';
-        !process.browser && (namespaceString = self.colorizeNamespace(namespaceString, method));
+        !isBrowser && (namespaceString = self.colorizeNamespace(namespaceString, method));
         if (typeof args[0] === 'string') {
           args[0] = namespaceString + ' ' + args[0];
         }

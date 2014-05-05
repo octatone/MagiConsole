@@ -487,6 +487,26 @@ else {
   };
   var _normalLoggers = Object.keys(_logLevels);
 
+  var _colors = {
+    'blue': '\x1B[34m',
+    'cyan': '\x1B[36m',
+    'green': '\x1B[32m',
+    'grey': '\x1B[90m',
+    'magenta': '\x1B[35m',
+    'red': '\x1B[31m',
+    'white': '\x1B[37m',
+    'yellow': '\x1B[33m'
+  };
+  var _colorTerminator = '\x1B[39m';
+
+  var _colorMap = {
+    'debug': 'cyan',
+    'error': 'red',
+    'info': 'grey',
+    'log': 'white',
+    'warn': 'yellow'
+  };
+
   // let there be debug!
   _normalLoggers.forEach(function (logger) {
     if (typeof Console[logger] !== 'function') {
@@ -538,11 +558,29 @@ else {
       return !!(shouldRun && Console);
     },
 
+    'colorizeString': function (string, color) {
+
+      return _colors[color] + string + _colorTerminator;
+    },
+
+    'colorizeNamespace': function (string, method) {
+
+      var color = _colorMap[method];
+      if (color) {
+        string = this.colorizeString(string, color);
+      }
+
+      return string;
+    },
+
     'injectNamespace': function (method, args) {
+
+      var self = this;
 
       if (_normalLoggers.indexOf(method) >= 0) {
         args = toArray(args);
-        var namespaceString = '[' + this.namespace.toUpperCase() + ']';
+        var namespaceString = '[' + self.namespace.toUpperCase() + ']';
+        !isBrowser && (namespaceString = self.colorizeNamespace(namespaceString, method));
         if (typeof args[0] === 'string') {
           args[0] = namespaceString + ' ' + args[0];
         }
@@ -605,6 +643,7 @@ else {
 
   module.exports = global.MagiConsole = MagiConsole;
 }
+
 }).call(this,_dereq_("/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":1,"wunderbits.core/public/WBClass":2,"wunderbits.core/public/lib/assert":3,"wunderbits.core/public/lib/functions":8,"wunderbits.core/public/lib/toArray":11}]},{},[12])
 //@ sourceMappingURL=MagiConsole.map
