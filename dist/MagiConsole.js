@@ -470,141 +470,141 @@ module.exports = toArray;
 var isBrowser = process.browser;
 if (isBrowser && global.MagiConsole) {
   module.exports = global.MagiConsole;
-  return;
 }
+else {
+  var Console = global.console;
+  var WBClass = _dereq_('wunderbits.core/public/WBClass');
+  var assert =  _dereq_('wunderbits.core/public/lib/assert');
+  var functions =  _dereq_('wunderbits.core/public/lib/functions');
+  var toArray = _dereq_('wunderbits.core/public/lib/toArray');
 
-var Console = global.console;
-var WBClass = _dereq_('wunderbits.core/public/WBClass');
-var assert =  _dereq_('wunderbits.core/public/lib/assert');
-var functions =  _dereq_('wunderbits.core/public/lib/functions');
-var toArray = _dereq_('wunderbits.core/public/lib/toArray');
+  var _logLevels = {
+    'error': 3,
+    'warn': 4,
+    'log': 5,
+    'info': 6,
+    'debug': 7
+  };
+  var _normalLoggers = Object.keys(_logLevels);
 
-var _logLevels = {
-  'error': 3,
-  'warn': 4,
-  'log': 5,
-  'info': 6,
-  'debug': 7
-};
-var _normalLoggers = Object.keys(_logLevels);
-
-// let there be debug!
-_normalLoggers.forEach(function (logger) {
-  if (typeof Console[logger] !== 'function') {
-    Console[logger] = Console.log;
-  }
-});
-
-var MagiConsolePrototype = {
-
-  'constructor': function (namespace) {
-
-    var self = this;
-
-    assert.string(namespace, 'namespace must be a string');
-
-    // if a cached namespaced logger already exists, simply return it
-    var namespaceMap = MagiConsole.namespaces;
-    if (namespaceMap[namespace] instanceof MagiConsole) {
-      return namespaceMap[namespace];
+  // let there be debug!
+  _normalLoggers.forEach(function (logger) {
+    if (typeof Console[logger] !== 'function') {
+      Console[logger] = Console.log;
     }
+  });
 
-    self.namespace = namespace;
-    namespaceMap[namespace] = self;
+  var MagiConsolePrototype = {
 
-    WBClass.call(self);
-  },
+    'constructor': function (namespace) {
 
-  'shouldRunLevel': function (method) {
+      var self = this;
 
-    var currentLevel = _logLevels[MagiConsole.level];
-    var methodLevel = _logLevels[method];
+      assert.string(namespace, 'namespace must be a string');
 
-    if (currentLevel === undefined || methodLevel === undefined) {
-      return true;
-    }
-    else {
-      return MagiConsole.levelOnly ? methodLevel === currentLevel : methodLevel <= currentLevel;
-    }
-  },
+      // if a cached namespaced logger already exists, simply return it
+      var namespaceMap = MagiConsole.namespaces;
+      if (namespaceMap[namespace] instanceof MagiConsole) {
+        return namespaceMap[namespace];
+      }
 
-  'shouldRun': function (method) {
+      self.namespace = namespace;
+      namespaceMap[namespace] = self;
 
-    var self = this;
-    var pattern = MagiConsole.pattern;
-    var level = MagiConsole.level;
+      WBClass.call(self);
+    },
 
-    var shouldRun = pattern && pattern.test(self.namespace);
-    shouldRun = shouldRun && (level ? self.shouldRunLevel(method) : true);
-    return !!(shouldRun && Console);
-  },
+    'shouldRunLevel': function (method) {
 
-  'injectNamespace': function (method, args) {
+      var currentLevel = _logLevels[MagiConsole.level];
+      var methodLevel = _logLevels[method];
 
-    if (_normalLoggers.indexOf(method) >= 0) {
-      args = toArray(args);
-      var namespaceString = '[' + this.namespace.toUpperCase() + ']';
-      if (typeof args[0] === 'string') {
-        args[0] = namespaceString + ' ' + args[0];
+      if (currentLevel === undefined || methodLevel === undefined) {
+        return true;
       }
       else {
-        args.unshift(namespaceString);
+        return MagiConsole.levelOnly ? methodLevel === currentLevel : methodLevel <= currentLevel;
       }
-    }
+    },
 
-    return args;
-  }
-};
+    'shouldRun': function (method) {
 
-functions(Console).forEach(function (method) {
+      var self = this;
+      var pattern = MagiConsole.pattern;
+      var level = MagiConsole.level;
 
-  MagiConsolePrototype[method] = function methodWrapper () {
+      var shouldRun = pattern && pattern.test(self.namespace);
+      shouldRun = shouldRun && (level ? self.shouldRunLevel(method) : true);
+      return !!(shouldRun && Console);
+    },
 
-    var self = this;
-    var args = arguments;
-    if (self.shouldRun(method)) {
-      args = self.injectNamespace(method, args);
-      Console[method].apply(Console, args);
+    'injectNamespace': function (method, args) {
+
+      if (_normalLoggers.indexOf(method) >= 0) {
+        args = toArray(args);
+        var namespaceString = '[' + this.namespace.toUpperCase() + ']';
+        if (typeof args[0] === 'string') {
+          args[0] = namespaceString + ' ' + args[0];
+        }
+        else {
+          args.unshift(namespaceString);
+        }
+      }
+
+      return args;
     }
   };
-});
 
-var MagiConsole = WBClass.extend(MagiConsolePrototype);
+  functions(Console).forEach(function (method) {
 
-MagiConsole.namespaces = {};
-MagiConsole.pattern = undefined;
-MagiConsole.level = undefined;
-MagiConsole.levelOnly = false;
+    MagiConsolePrototype[method] = function methodWrapper () {
 
-MagiConsole.release = function () {
+      var self = this;
+      var args = arguments;
+      if (self.shouldRun(method)) {
+        args = self.injectNamespace(method, args);
+        Console[method].apply(Console, args);
+      }
+    };
+  });
+
+  var MagiConsole = WBClass.extend(MagiConsolePrototype);
 
   MagiConsole.namespaces = {};
-};
+  MagiConsole.pattern = undefined;
+  MagiConsole.level = undefined;
+  MagiConsole.levelOnly = false;
 
-MagiConsole.log = function (regexPatternString) {
+  MagiConsole.release = function () {
 
-  assert.string(regexPatternString, 'regexPatternString must be a string');
-  regexPatternString = regexPatternString === '*' ? '.?' : regexPatternString;
-  MagiConsole.pattern = new RegExp(regexPatternString);
-};
+    MagiConsole.namespaces = {};
+  };
 
-MagiConsole.setLevel = function (logLevel, levelOnly) {
+  MagiConsole.log = function (regexPatternString) {
 
-  assert.string(logLevel, 'logLevel must be a string');
-  logLevel = logLevel === '*' ? undefined : logLevel;
-  MagiConsole.level = logLevel;
-  MagiConsole.levelOnly = !!levelOnly;
-};
+    assert.string(regexPatternString, 'regexPatternString must be a string');
+    regexPatternString = regexPatternString === '*' ? '.?' : regexPatternString;
+    MagiConsole.pattern = new RegExp(regexPatternString);
+  };
 
-if (!isBrowser) {
-  var env = process.env;
-  var envPattern = env.MLOG;
-  var envLevel = env.MLEVEL;
-  envPattern && MagiConsole.log(envPattern);
-  envLevel && MagiConsole.setLevel(envLevel, env.MLEVELONLY === 'true');
+  MagiConsole.setLevel = function (logLevel, levelOnly) {
+
+    assert.string(logLevel, 'logLevel must be a string');
+    logLevel = logLevel === '*' ? undefined : logLevel;
+    MagiConsole.level = logLevel;
+    MagiConsole.levelOnly = !!levelOnly;
+  };
+
+  if (!isBrowser) {
+    var env = process.env;
+    var envPattern = env.MLOG;
+    var envLevel = env.MLEVEL;
+    envPattern && MagiConsole.log(envPattern);
+    envLevel && MagiConsole.setLevel(envLevel, env.MLEVELONLY === 'true');
+  }
+
+  module.exports = global.MagiConsole = MagiConsole;
 }
-
-module.exports = global.MagiConsole = MagiConsole;
 }).call(this,_dereq_("/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":1,"wunderbits.core/public/WBClass":2,"wunderbits.core/public/lib/assert":3,"wunderbits.core/public/lib/functions":8,"wunderbits.core/public/lib/toArray":11}]},{},[12])
 //@ sourceMappingURL=MagiConsole.map
