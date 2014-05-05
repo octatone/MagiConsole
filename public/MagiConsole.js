@@ -1,10 +1,10 @@
 'use strict';
 
 var Console = global.console;
-var WBClass = require('../node_modules/wunderbits.core/public/WBClass');
-var assert =  require('../node_modules/wunderbits.core/public/lib/assert');
-var functions =  require('../node_modules/wunderbits.core/public/lib/functions');
-var toArray = require('../node_modules/wunderbits.core/public/lib/toArray');
+var WBClass = require('wunderbits.core/public/WBClass');
+var assert =  require('wunderbits.core/public/lib/assert');
+var functions =  require('wunderbits.core/public/lib/functions');
+var toArray = require('wunderbits.core/public/lib/toArray');
 
 var _logLevels = {
   'error': 3,

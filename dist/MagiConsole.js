@@ -468,10 +468,10 @@ module.exports = toArray;
 'use strict';
 
 var Console = global.console;
-var WBClass = _dereq_('../node_modules/wunderbits.core/public/WBClass');
-var assert =  _dereq_('../node_modules/wunderbits.core/public/lib/assert');
-var functions =  _dereq_('../node_modules/wunderbits.core/public/lib/functions');
-var toArray = _dereq_('../node_modules/wunderbits.core/public/lib/toArray');
+var WBClass = _dereq_('wunderbits.core/public/WBClass');
+var assert =  _dereq_('wunderbits.core/public/lib/assert');
+var functions =  _dereq_('wunderbits.core/public/lib/functions');
+var toArray = _dereq_('wunderbits.core/public/lib/toArray');
 
 var _logLevels = {
   'error': 3,
@@ -593,7 +593,7 @@ if (!process.browser) {
 
 module.exports = global.MagiConsole = MagiConsole;
 }).call(this,_dereq_("/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../node_modules/wunderbits.core/public/WBClass":2,"../node_modules/wunderbits.core/public/lib/assert":3,"../node_modules/wunderbits.core/public/lib/functions":8,"../node_modules/wunderbits.core/public/lib/toArray":11,"/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":1}]},{},[12])
+},{"/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":1,"wunderbits.core/public/WBClass":2,"wunderbits.core/public/lib/assert":3,"wunderbits.core/public/lib/functions":8,"wunderbits.core/public/lib/toArray":11}]},{},[12])
 //@ sourceMappingURL=MagiConsole.map
 (12)
 });
