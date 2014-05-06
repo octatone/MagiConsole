@@ -1,0 +1,19 @@
+{
+  "name": "MagiConsole",
+  "version": "0.2.0",
+  "main": "dist/MagiConsole.min.js",
+  "ignore": [
+    ".jshintrc",
+    ".gitignore",
+    ".travis.yml",
+    "Gruntfile.js",
+    "Gulpfile.js",
+    "Makefile",
+    "package.json",
+    "examples/**/*",
+    "grunt/**/*",
+    "karma/**/*",
+    "tests/**/*",
+    "build/**/*"
+  ]
+}
