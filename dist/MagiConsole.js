@@ -646,7 +646,7 @@ else {
   MagiConsole.release();
   MagiConsole.reset();
 
-  module.exports = global.MagiConsole = MagiConsole;
+  module.exports = MagiConsole;
 }
 
 }).call(this,_dereq_("/Users/test/Documents/6wunderkinder/MagiConsole/node_modules/gulp-cjs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})

@@ -2,9 +2,11 @@
 <html>
   <head>
     <script TYPE="text/javascript" src="../../dist/MagiConsole.min.js"></script>
+  </head>
+  <body>
     <script>
       // the MagiConsole constructor is available on window
-      MagiConsole.log('*');
+      MagiConsole.setPattern('*');
       MagiConsole.setLevel('warn');
 
       var fooLogger = new MagiConsole('foo');
@@ -23,5 +25,5 @@
       demo();
       setInterval(demo, 5000);
     </script>
-  </head>
+  </body>
 </html>

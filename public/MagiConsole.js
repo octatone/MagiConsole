@@ -179,5 +179,5 @@ else {
   MagiConsole.release();
   MagiConsole.reset();
 
-  module.exports = global.MagiConsole = MagiConsole;
+  module.exports = MagiConsole;
 }
