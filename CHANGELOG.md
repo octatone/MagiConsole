@@ -1,5 +1,8 @@
 # Changlog
 
+## v0.2.2
+  - improved colors for node leveled log methods
+
 ## v0.2.1
   - removed explicit global
 
