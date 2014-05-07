@@ -11,7 +11,7 @@ A magical namespaced console wrapper with loglevel support for node.js and the b
 
 ## Usage
 
-Require MagiConsole and create some namespaced console objects:
+Require or include MagiConsole and create some namespaced console objects:
 
 ### Node
 ```javascript
@@ -22,46 +22,49 @@ var MagiConsole = require('magiconsole');
 ```html
 <script TYPE="text/javascript" src="MagiConsole.min.js"></script>
 ```
-Once the script is loaded, MagiConsole is available on window.  You can also require MagiConsole.js with AMD loaders
+Once the script is loaded, MagiConsole is available on window.
+You can also require MagiConsole.js with your favorite AMD loader.
 
 ```javascript
-var fooConsole = new MagiConsole('foo');
-var barConsole = new MagiConsole('bar');
+var ioConsole = new MagiConsole('IO');
+var dbConsole = new MagiConsole('DB');
 ```
 
-The MagiConsole constructor caches namespaced instances.  You can require and create namespaced consoles throughout your project, but only one object instance will be created per namespace.
+The MagiConsole constructor caches namespaced instances.
+You can require and create namespaced consoles throughout your project,
+but only one object instance will be created per namespace.
 
 ### Namespaces
 
 By default nothing is output from magiconsole:
 ```javascript
-fooConsole.log('bar');
-barConsole.log('foo');
+ioConsole.info('web socket connected');
+dbConsole.info('useing indexeddb');
 ```
 (nothing is output to the console)
 
-Enable magiconsole namespaces with regex patterns:
+Enable MagiConsole namespaces with regex patterns:
 ```javascript
 // setup namespace regex pattern:
-MagiConsole.setPattern('bar');
+MagiConsole.setPattern('IO');
 
-barConsole.log('foo');
-fooConsole.log('bar');
+ioConsole.error('socket error');
+dbConsole.warn('table not found');
 ```
 ```text
-> [BAR] foo
+> [IO] socket error
 ```
 
 Enable all namespaces with a special wildcard string:
 ```javascript
 MagiConsole.setPattern('*');
 
-barConsole.log('foo');
-fooConsole.log('bar');
+ioConsole.debug('200 OK');
+dbConsole.log('all data loaded');
 ```
 ```text
-> [BAR] foo
-> [FOO] bar
+> [IO] 200 OK
+> [DB] all data loaded
 ```
 
 Enable namespaces via environment variables:
@@ -81,23 +84,26 @@ Sets the current regex pattern namespaces are tested against.
 
 ### Log Levels
 
-MagiConsole wraps *all* methods normally available via `console` including `log`, `dir`, `warn`, and `info`.
+MagiConsole wraps *all* methods normally available via `console` in modern
+browsers and ensures that the leveled methods `error`, `warn`, `log`, `info` and `debug` are always
+available both in the browser and node.
 
-By default no log level is set and all methods are enabled to write to the console.
+By default no log level is set and all methods are enabled to write
+to the console.
 
-Set a log level and allow all messages of greater severity:
+Set a log level and allow only messages of the same or greater severity:
 ```javascript
 var onlyThisLevel = false;
 MagiConsole.setLevel('warn', onlyThisLevel);
 MagiConsole.setPattern('*');
 
-barConsole.warn('a warning');
-fooConsole.error('an error');
-barConsole.debug('a boring debug message');
+ioConsole.warn('a warning');
+dbConsole.error('an error');
+ioConsole.debug('a boring debug message');
 ```
 ```text
-> [BAR] a warning
-> [FOO] an error
+> [IO] a warning
+> [DB] an error
 ```
 
 Whitelist a loglevel:
@@ -106,11 +112,11 @@ var onlyThisLevel = true;
 MagiConsole.setLevel('warn', onlyThisLevel);
 MagiConsole.setPattern('*');
 
-barConsole.log('foo');
-fooConsole.warn('bar');
+ioConsole.log('connected to foo.b.ar');
+dbConsole.warn('write not completed within 100ms');
 ```
 ```text
-> [FOO] bar
+> [IO] connected to foo.b.ar
 ```
 
 Reenable all console methods:
@@ -118,12 +124,12 @@ Reenable all console methods:
 MagiConsole.setLevel('*');
 MagiConsole.setPattern('*');
 
-barConsole.log('foo');
-fooConsole.warn('bar');
+ioConsole.log('connecting ...');
+dbConsole.warn('store not found');
 ```
 ```text
-> [BAR] foo
-> [FOO] bar
+> [IO] connecting ...
+> [DB] store not found
 ```
 
 Set log level via environment variable:
@@ -140,7 +146,7 @@ MagiConsole.reset();
 
 ## Environment Variables
 
-MagiConsole can be configured via the command line using envinronment variables:
+MagiConsole can be configured via the command line using environment variables:
 
   - `MLOG` sets the namespace regex pattern
 
