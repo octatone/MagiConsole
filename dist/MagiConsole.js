@@ -573,6 +573,20 @@ else {
       return string;
     },
 
+    'colorizeStrings': function (method, args) {
+
+      var self = this;
+
+      args.forEach(function (arg, index) {
+
+        if (typeof arg === 'string') {
+          args[index] = self.colorizeNamespace(arg, method);
+        }
+      });
+
+      return args;
+    },
+
     'injectNamespace': function (method, args) {
 
       var self = this;
@@ -580,13 +594,14 @@ else {
       if (_normalLoggers.indexOf(method) >= 0) {
         args = toArray(args);
         var namespaceString = '[' + self.namespace.toUpperCase() + ']';
-        !isBrowser && (namespaceString = self.colorizeNamespace(namespaceString, method));
         if (typeof args[0] === 'string') {
           args[0] = namespaceString + ' ' + args[0];
         }
         else {
           args.unshift(namespaceString);
         }
+
+        !isBrowser && self.colorizeStrings(method, args);
       }
 
       return args;

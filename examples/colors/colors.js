@@ -2,7 +2,7 @@
 
 var Console = require('../../public/MagiConsole');
 
-Console.log('*');
+Console.setPattern('*');
 
 var colorLogger = new Console('colors');
 
@@ -16,5 +16,9 @@ var methods = [
 
 methods.forEach(function (method) {
 
-  colorLogger[method] && colorLogger[method](method);
+  colorLogger[method] && colorLogger[method](method, {'foo': 'bar'}, true, false, undefined, 1, 'foobar');
+});
+
+colorLogger.dir({
+  'test': 'foobar'
 });
